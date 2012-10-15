@@ -81,7 +81,11 @@ def main():
             options.perplanet, options.leave,
             source_shape, sink_shape)
 
-def BuildArcs(g, doupgrade, maxarcs, perplanet, leave, source, sink):
+def BuildArcs(g, doupgrade, maxarcs, perplanet, leave, source, sink,
+              escort=True):
+  manifest = { 'arcs': 1 }
+  if escort:
+    manifest['frigates'] = 1
 
   # find a list of potential arc builders
   print "looking for arc builders..."
@@ -90,7 +94,7 @@ def BuildArcs(g, doupgrade, maxarcs, perplanet, leave, source, sink):
   for p in g.planets:
     if source.inside(p.location):
       p.load()
-      count = p.how_many_can_build({'arcs': 1})
+      count = p.how_many_can_build(manifest)
       if count and p.society > 30 and p.population > 20000:
         print "planet " + str(p) + " can build " + str(count) + " arcs"
         p.distance_to_target = sink.distance(p.location)
@@ -140,7 +144,7 @@ def BuildArcs(g, doupgrade, maxarcs, perplanet, leave, source, sink):
   built = 0
   if len(unowned_targets) > 0:
     print "building arcs..."
-    arc = { 'arcs': 1 }
+    arc = manifest
     done = False
     for p in arc_builders:
       if done:
