@@ -18,7 +18,7 @@ def main():
   parser.add_option("-P", "--password", dest="password",
                     help="password for login")
   parser.add_option("-t", "--type", dest="type",
-                    help="type of ship to build", default="frigates")
+                    help="type of ship to build", default="destroyers")
   (options, args) = parser.parse_args()
   
   g=game.Galaxy()
